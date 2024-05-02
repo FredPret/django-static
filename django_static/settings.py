@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY_django_static")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY_django_cms")
 
 debug_str = os.getenv('DJANGO_DEBUG', 'False')
 DEBUG = debug_str.lower() in ['true', '1', 'yes']
