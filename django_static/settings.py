@@ -25,11 +25,16 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY_django_static")
 debug_str = os.getenv('DJANGO_DEBUG', 'False')
 DEBUG = debug_str.lower() in ['true', '1', 'yes']
 
-
 ALLOWED_HOSTS = []
 
-
 # Application definition
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+    }
+}
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -38,7 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'django_static_project.apps.DjangoStaticProjectConfig',
+    'cms.apps.DjangoStaticProjectConfig',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
