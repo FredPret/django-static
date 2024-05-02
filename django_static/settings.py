@@ -25,8 +25,11 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY_django_static")
 debug_str = os.getenv('DJANGO_DEBUG', 'False')
 DEBUG = debug_str.lower() in ['true', '1', 'yes']
 
-allowed_hosts_str = os.getenv('DJANGO_ALLOWED_HOSTS_cms', '')
-ALLOWED_HOSTS = allowed_hosts_str.split(',')
+CSRF_TRUSTED_ORIGINS_str = os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS_cms', '')
+CSRF_TRUSTED_ORIGINS = CSRF_TRUSTED_ORIGINS_str.split(',')
+
+ALLOWED_HOSTS_str = os.getenv('DJANGO_ALLOWED_HOSTS_cms', '')
+ALLOWED_HOSTS = ALLOWED_HOSTS_str.split(',')
 
 # Application definition
 
