@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.template import Template
-
 from .models import Article
-
+from .utils import get_dest_dir
+import os
 
 # Create your views here.
 
@@ -31,13 +31,17 @@ def export_to_static(id):
     # Render the template with the article's context
     html_content = render_to_string('cms/article_static.html', {'article': article})
 
-    # Define the destination path
-    dest_dir = '/private/var/www/nginx_static/django_static' #'/var/www/nginx'
+
+    # Get the directory from Settings or use default
+    dest_dir = get_dest_dir()
+
+    # Define the full path to store the HTML file
     dest_file = f"{article.title.replace(' ', '_').lower()}.html"
     dest_path = os.path.join(dest_dir, dest_file)
 
-    # Write the content to the static file
+    # Write the content to the file
     with open(dest_path, 'w') as f:
         f.write(html_content)
 
     print(f"Article '{article.title}' exported to {dest_path}.")
+
