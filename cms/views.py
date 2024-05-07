@@ -1,7 +1,7 @@
-from django.shortcuts import render
-from django.template import Template
-from .models import Article
 from .utils import get_dest_dir
+from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404, render
+from .models import Article
 import os
 
 # Create your views here.
@@ -16,13 +16,6 @@ def article_detail(request, id):
     article = Article.objects.get(id=id, published=True)
     return render(request, 'cms/article_detail.html', {'article': article})
 
-
-
-
-from django.template.loader import render_to_string
-from django.shortcuts import get_object_or_404
-from .models import Article
-import os
 
 def export_to_static(id):
     # Fetch the article from the database
@@ -44,4 +37,3 @@ def export_to_static(id):
         f.write(html_content)
 
     print(f"Article '{article.title}' exported to {dest_path}.")
-
