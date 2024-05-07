@@ -1,14 +1,13 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-#from quill.fields import RichTextField
-
-# Create your models here.
+from django_quill.fields import QuillField
 from django.contrib.auth.models import User
 
 
+# Create your models here.
 class Article(models.Model):
     title = models.TextField()
-    #content = RichTextField()
+    content = QuillField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     published = models.BooleanField(default=False)
