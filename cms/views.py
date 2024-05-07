@@ -24,7 +24,6 @@ def export_to_static(id):
     serializer = ArticleSerializer(article)
     serializer_output_dict = serializer.data
     content = serializer_output_dict.get('content')
-    print(f"content {content}")
 
     # Use data from serializer
     context = {
