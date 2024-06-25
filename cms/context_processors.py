@@ -6,5 +6,5 @@ def site_settings(request):
         'site_name': settings.site_name,
         'site_headline': settings.site_headline,
         'site_teaser': settings.site_teaser,
-        'about': settings.about,  # Include the new field
+        'about': settings.about,
     }
