@@ -1,0 +1,79 @@
+{% load static %} <!DOCTYPE html>
+
+<html data-bs-theme="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+<title>Contact us - Brand</title>
+<link href="{% static 'cms/assets/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;display=swap" rel="stylesheet"/>
+<link href="{% static 'cms/assets/fonts/font-awesome.min.css' %}" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+<div class="container"><a class="navbar-brand" href="{% url 'cms:index' %}">{{site_name}}</a><button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarResponsive" data-bs-toggle="collapse"><i class="fa fa-bars"></i></button>
+<div class="collapse navbar-collapse" id="navbarResponsive">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item"></li>
+<li class="nav-item"><a class="nav-link" href="{% url 'cms:about' %}">About</a></li>
+<li class="nav-item"><a class="nav-link" href="{% url 'cms:contact' %}">Contact</a></li>
+<li class="nav-item"><a class="nav-link" href="{% url 'cms:index' %}">Blog</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<header class="masthead" style="background-image:url('{% static 'cms/assets/img/contact-bg.jpg' %}');">
+<div class="overlay"></div>
+<div class="container">
+<div class="row">
+<div class="col-md-10 col-lg-8 mx-auto position-relative">
+<div class="site-heading">
+<h1>Contact Me</h1><span class="subheading">Have questions? I have answers.</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="container">
+<div class="row">
+<div class="col-md-10 col-lg-8 mx-auto">
+<p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
+<form id="contactForm" name="sentMessage">
+<div>
+<div class="form-floating mb-3"><input class="form-control" id="name" placeholder="Name" required="" type="text"/><label class="form-label" for="name">Name</label><small class="form-text text-danger help-block"></small></div>
+</div>
+<div>
+<div class="form-floating mb-3"><input class="form-control" id="email" placeholder="Email Address" required="" type="email"/><label class="form-label">Email Address</label><small class="form-text text-danger help-block"></small></div>
+</div>
+<div>
+<div class="form-floating mb-3"><input class="form-control" id="phone" placeholder="Phone Number" required="" type="tel"/><label class="form-label">Phone Number</label><small class="form-text text-danger help-block"></small></div>
+</div>
+<div>
+<div class="form-floating mb-3"><textarea class="form-control" data-validation-required-message="Please enter a message." id="message" placeholder="Message" required="" style="height: 150px;"></textarea><label class="form-label">Message</label><small class="form-text text-danger help-block"></small></div>
+</div>
+<div id="success"></div>
+<div class="mb-3"><button class="btn btn-primary" id="sendMessageButton" type="submit">Send</button></div>
+</form>
+</div>
+</div>
+</div>
+<hr/>
+<footer>
+<div class="container">
+<div class="row">
+<div class="col-md-10 col-lg-8 mx-auto">
+<ul class="list-inline text-center">
+<li class="list-inline-item"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></li>
+<li class="list-inline-item"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></li>
+<li class="list-inline-item"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-github fa-stack-1x fa-inverse"></i></span></li>
+</ul>
+<p class="text-muted copyright">Copyright © {{site_name}} {% now "Y" %}</p>
+</div>
+</div>
+</div>
+</footer>
+<script src="{% static 'cms/assets/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'cms/assets/js/clean-blog.js' %}"></script>
+</body>
+</html>

@@ -1,24 +1,52 @@
-from rest_framework import viewsets
-from .utils import get_dest_dir
-from django.template.loader import render_to_string
-from django.shortcuts import get_object_or_404, render
-from .models import Article
 import os
+import subprocess
+
+from django.shortcuts import get_object_or_404, render
+from rest_framework import viewsets
+from django.template.loader import render_to_string
+from django.conf import settings
+
+from .models import Article, Settings
 from .serializers import ArticleSerializer
+from .utils import get_dest_base_dir
 
 
 # Create your views here.
+
+site_settings = {
+    'site_name': Settings.objects.first().site_name
+    ,'site_headline': Settings.objects.first().site_headline
+    ,'site_teaser': Settings.objects.first().site_teaser
+}
+
 def index(request):
     articles = Article.objects.filter(published=True).order_by('-created_at')
-    return render(request, 'cms/index.html', {'articles': articles})
+    context = {'articles': articles} | site_settings
+    return render(request, 'cms/index.html', context=context)
 
 
-def article_detail(request, id):
-    article = Article.objects.get(id=id, published=True)
-    return render(request, 'cms/article_detail.html', {'article': article})
+def about(request):
+    articles = Article.objects.filter(published=True).order_by('-created_at')
+    context = {'articles': articles} | site_settings
+    return render(request, 'cms/about.html', context=context)
+
+
+def contact(request):
+    articles = Article.objects.filter(published=True).order_by('-created_at')
+    context = {'articles': articles} | site_settings
+    return render(request, 'cms/contact.html', context=context)
+
+
+def article_detail(request, slug):
+    print(f'looking for slug {slug}')
+    article = Article.objects.get(slug=slug, published=True)
+    context = {'article': article} | site_settings
+    return render(request, 'cms/post.html', context=context)
 
 
 def export_to_static(id):
+    # deploy command: python manage.py distill-local /private/var/www/nginx_static/django_static/test
+    
     # Fetch the article from the database
     article = get_object_or_404(Article, id=id, published=True)
     serializer = ArticleSerializer(article)
@@ -37,14 +65,38 @@ def export_to_static(id):
     html_content = render_to_string('cms/static_article_template.html', context=context)
 
     # Get the directory from Settings or use default
-    dest_dir = get_dest_dir()
+    article_name = article.title.replace(' ', '_').lower()
+    dest_dir = os.path.join(get_dest_base_dir(), article_name) # /article/destination/path/article_name/
 
-    # Define the full path to store the HTML file
-    dest_file = f"{article.title.replace(' ', '_').lower()}.html"
-    dest_path = os.path.join(dest_dir, dest_file)
+    if not os.path.exists(dest_dir):
+        os.makedirs(dest_dir)
 
-    # Write the content to the file
-    with open(dest_path, 'w') as f:
+    # copy html file
+    html_file_name = article_name + '.html'
+    html_dest_path = os.path.join(dest_dir, html_file_name) # /article/destination/path/article_name/article_name.html
+
+    with open(html_dest_path, 'w') as f:
         f.write(html_content)
 
-    print(f"Article '{article.title}' exported to {dest_path}.")
+    # copy assets folder
+    source_assets_path = os.path.join(settings.BASE_DIR, 'cms', 'templates', 'cms', 'assets/')
+    destination_assets_path = os.path.join(dest_dir,'assets/')
+    try:
+        command = [
+            'rsync',
+            '-av',
+            source_assets_path,  # Ensure the source directory ends with a slash
+            destination_assets_path
+        ]
+
+        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        print("rsync output:", result.stdout.decode())
+        print("rsync of asset folder done")
+
+    except subprocess.CalledProcessError as e:
+        print("rsync failed with the following error:")
+        print(e.stderr.decode())
+        print(f"when trying to copy from {source_assets_path} to {destination_assets_path}")
+
+    print(f"Article '{article.title}' exported.")

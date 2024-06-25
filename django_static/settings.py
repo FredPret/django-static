@@ -33,12 +33,6 @@ ALLOWED_HOSTS = ALLOWED_HOSTS_str.split(',')
 
 # Application definition
 
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'full',
-        'height': 300,
-    }
-}
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -50,6 +44,7 @@ INSTALLED_APPS = [
     'cms.apps.DjangoStaticProjectConfig',
     'django_quill',
     'rest_framework',
+    'django_distill'
 ]
 
 MIDDLEWARE = [
@@ -129,7 +124,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

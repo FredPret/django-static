@@ -1,6 +1,6 @@
 from .models import Settings
 
-def get_dest_dir():
+def get_dest_base_dir():
     # Get the existing Settings instance or return a default value
     try:
         return Settings.objects.get().dest_dir
