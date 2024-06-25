@@ -12,35 +12,28 @@ from .utils import get_dest_base_dir
 
 
 # Create your views here.
-
-site_settings = {
-    'site_name': Settings.objects.first().site_name
-    ,'site_headline': Settings.objects.first().site_headline
-    ,'site_teaser': Settings.objects.first().site_teaser
-}
-
 def index(request):
     articles = Article.objects.filter(published=True).order_by('-created_at')
-    context = {'articles': articles} | site_settings
+    context = {'articles': articles}
     return render(request, 'cms/index.html', context=context)
 
 
 def about(request):
     articles = Article.objects.filter(published=True).order_by('-created_at')
-    context = {'articles': articles} | site_settings
+    context = {'articles': articles}
     return render(request, 'cms/about.html', context=context)
 
 
 def contact(request):
     articles = Article.objects.filter(published=True).order_by('-created_at')
-    context = {'articles': articles} | site_settings
+    context = {'articles': articles}
     return render(request, 'cms/contact.html', context=context)
 
 
 def article_detail(request, slug):
     print(f'looking for slug {slug}')
     article = Article.objects.get(slug=slug, published=True)
-    context = {'article': article} | site_settings
+    context = {'article': article}
     return render(request, 'cms/post.html', context=context)
 
 
